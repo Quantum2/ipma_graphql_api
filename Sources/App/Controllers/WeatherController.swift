@@ -19,4 +19,18 @@ final class WeatherController {
     func fetchLocations(request: Request, _: NoArguments) throws -> [Location] {
         return weatherProcesser.locations
     }
+    
+    func fetchForecast(request: Request, arguments: ForecastArguments) throws -> Forecast? {
+        return weatherProcesser.forecasts[weatherProcesser.locations.filter{ $0.globalIDLocal == arguments.location?.globalIDLocal }[0]]
+    }
+}
+
+extension WeatherController: FieldKeyProvider {
+    typealias FieldKey = FieldKeys
+
+    enum FieldKeys: String {
+        case fetchLocations
+        case fetchForecast
+        case location
+    }
 }

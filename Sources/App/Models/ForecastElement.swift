@@ -4,6 +4,7 @@
 //   let forecast = try? newJSONDecoder().decode(Forecast.self, from: jsonData)
 
 import Foundation
+import GraphQLKit
 
 // MARK: - ForecastElement
 struct ForecastElement: Codable {
@@ -46,4 +47,18 @@ enum IntervaloHora: String, Codable {
     case the14H14H = "14h-14h"
 }
 
-typealias Forecast = [ForecastElement]
+struct Forecast: Codable {
+    let forecasts: [ForecastElement]
+}
+
+struct ForecastArguments : Codable {
+    let location: Location?
+}
+
+extension Forecast: FieldKeyProvider {
+    typealias FieldKey = FieldKeys
+
+    enum FieldKeys: String {
+        case forecasts
+    }
+}

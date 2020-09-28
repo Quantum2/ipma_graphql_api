@@ -6,20 +6,30 @@
 //
 
 import Foundation
+import GraphQLKit
 
 // MARK: - Location
-struct Location: Codable {
+struct Location: Codable, Hashable {
     let idRegiao: Int
     let idAreaAviso: String
     let globalIDLocal, idConcelho: Int
     let latitude: String
     let idDistrito: Int
     let local, longitude: String
-    var forecast: Forecast?
 
     enum CodingKeys: String, CodingKey {
         case idRegiao, idAreaAviso
         case globalIDLocal = "globalIdLocal"
-        case idConcelho, latitude, idDistrito, local, longitude, forecast
+        case idConcelho, latitude, idDistrito, local, longitude
+    }
+}
+
+extension Location: FieldKeyProvider {
+    typealias FieldKey = FieldKeys
+
+    enum FieldKeys: String {
+        case idRegiao, idAreaAviso
+        case globalIDLocal = "globalIdLocal"
+        case idConcelho, latitude, idDistrito, local, longitude
     }
 }
