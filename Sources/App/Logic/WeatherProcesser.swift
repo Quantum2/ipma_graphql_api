@@ -12,7 +12,7 @@ final class WeatherProcesser {
     let client: Client
     
     var locations = [Location]()
-    var forecasts = [Location:Forecast]()
+    var forecasts = [Location:[ForecastElement]]()
     
     init(_ app: Application) {
         self.client = app.client

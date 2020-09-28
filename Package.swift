@@ -12,7 +12,6 @@ let package = Package(
         // 🌐 GraphQL
         .package(name: "GraphQLKit", url: "https://github.com/alexsteinerde/graphql-kit.git", from: "2.0.0-beta.1"),
         .package(name: "GraphiQLVapor", url: "https://github.com/alexsteinerde/graphiql-vapor.git", .branch("vapor4"))
-        
     ],
     targets: [
         .target(
