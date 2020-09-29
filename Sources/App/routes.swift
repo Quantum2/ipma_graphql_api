@@ -9,4 +9,6 @@ func routes(_ app: Application) throws {
     
     app.register(graphQLSchema: Schemas.schema, withResolver: weatherController)
     app.enableGraphiQL()
+    
+    app.commands.use(RefreshCommand(weatherController: weatherController), as: "refresh")
 }

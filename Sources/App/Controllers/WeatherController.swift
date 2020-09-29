@@ -10,6 +10,8 @@ import Vapor
 import GraphQLKit
 
 final class WeatherController {
+    let logger = Logger(label: "com.ipma_api.GraphQLController")
+    
     let weatherProcesser: WeatherProcesser
     let weatherTypeProcesser: WeatherTypesProcesser
     
@@ -32,6 +34,16 @@ final class WeatherController {
     
     func fetchWeatherTypes(request: Request, _: NoArguments) throws -> [WeatherTypeData] {
         return weatherTypeProcesser.weatherTypes
+    }
+    
+    //MARK: NonResponseMethods
+    
+    func refreshData() {
+        self.weatherProcesser.stopTimer()
+        self.weatherProcesser.startTimer()
+        
+        self.weatherTypeProcesser.getWeatherTypes()
+        self.logger.info("Weather data updated")
     }
     
     //MARK: InternalMethods

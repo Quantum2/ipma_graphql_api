@@ -19,7 +19,7 @@ final class WeatherTypesProcesser {
         self.getWeatherTypes()
     }
     
-    private func getWeatherTypes() {
+    func getWeatherTypes() {
         client.get("https://api.ipma.pt/open-data/weather-type-classe.json").flatMapThrowing { res in
             try res.content.decode(WeatherType.self)
         }.map { json in
