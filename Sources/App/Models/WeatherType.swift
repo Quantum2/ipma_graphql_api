@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import GraphQLKit
 
 // MARK: - WeatherType
 struct WeatherType: Codable {
@@ -19,6 +20,25 @@ struct WeatherTypeData: Codable {
     let idWeatherType: Int
 
     enum CodingKeys: String, CodingKey {
+        case descIDWeatherTypeEN = "descIdWeatherTypeEN"
+        case descIDWeatherTypePT = "descIdWeatherTypePT"
+        case idWeatherType
+    }
+}
+
+extension WeatherType: FieldKeyProvider {
+    typealias FieldKey = FieldKeys
+
+    enum FieldKeys: String {
+        case owner, country
+        case data
+    }
+}
+
+extension WeatherTypeData: FieldKeyProvider {
+    typealias FieldKey = FieldKeys
+
+    enum FieldKeys: String {
         case descIDWeatherTypeEN = "descIdWeatherTypeEN"
         case descIDWeatherTypePT = "descIdWeatherTypePT"
         case idWeatherType

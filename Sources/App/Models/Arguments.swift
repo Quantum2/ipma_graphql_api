@@ -7,6 +7,10 @@
 
 import Foundation
 
-struct ForecastArguments : Codable {
+struct ForecastArguments: Codable {
     let globalId: Int
+}
+
+struct PositionArguments: Codable {
+    let latitude, longitude: Double
 }
