@@ -14,10 +14,12 @@ final class WeatherController {
     
     let weatherProcesser: WeatherProcesser
     let weatherTypeProcesser: WeatherTypesProcesser
+    let weatherStationsProcesser: WeatherStationsProcesser
     
-    init(weatherProcesser: WeatherProcesser, typesProcesser: WeatherTypesProcesser) {
+    init(_ weatherProcesser: WeatherProcesser, _ typesProcesser: WeatherTypesProcesser, _ stationsProcesser: WeatherStationsProcesser) {
         self.weatherProcesser = weatherProcesser
         self.weatherTypeProcesser = typesProcesser
+        self.weatherStationsProcesser = stationsProcesser
     }
     
     func fetchLocations(request: Request, _: NoArguments) throws -> [Location] {
@@ -34,6 +36,10 @@ final class WeatherController {
     
     func fetchWeatherTypes(request: Request, _: NoArguments) throws -> [WeatherTypeData] {
         return weatherTypeProcesser.weatherTypes
+    }
+    
+    func fetchStationsInfo(request: Request, _: NoArguments) throws -> [StationObservation] {
+        return weatherStationsProcesser.stationsFinal
     }
     
     //MARK: NonResponseMethods
