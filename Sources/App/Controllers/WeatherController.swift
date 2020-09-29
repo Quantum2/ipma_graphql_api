@@ -85,5 +85,6 @@ extension WeatherController: FieldKeyProvider {
         case positionLatitude
         case positionLongitude
         case fetchWeatherTypes
+        case fetchStationsInfo
     }
 }

@@ -61,3 +61,15 @@ extension StationObservation: FieldKeyProvider {
         case observation
     }
 }
+
+extension StationObservationClass: FieldKeyProvider {
+    typealias FieldKey = FieldKeys
+
+    enum FieldKeys: String {
+        case intensidadeVentoKM, temperatura, radiacao
+        case idDireccVento
+        case precAcumulada, intensidadeVento
+        case humidade
+        case pressao
+    }
+}

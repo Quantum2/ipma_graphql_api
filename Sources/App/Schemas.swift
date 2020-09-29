@@ -51,6 +51,23 @@ enum Schemas {
             Field(.idWeatherType, at: \.idWeatherType)
         ]),
         
+        Type(StationObservationClass.self, fields: [
+            Field(.intensidadeVentoKM, at: \.intensidadeVentoKM),
+            Field(.temperatura, at: \.temperatura),
+            Field(.radiacao, at: \.radiacao),
+            Field(.idDireccVento, at: \.idDireccVento),
+            Field(.precAcumulada, at: \.precAcumulada),
+            Field(.intensidadeVento, at: \.intensidadeVento),
+            Field(.humidade, at: \.humidade),
+            Field(.pressao, at: \.pressao)
+        ]),
+        
+        Type(StationObservation.self, fields: [
+            Field(.date, at: \.date),
+            Field(.id, at: \.id),
+            Field(.observation, at: \.observation)
+        ]),
+        
         Query([
             Field(.fetchLocations, at: WeatherController.fetchLocations),
             
@@ -61,9 +78,11 @@ enum Schemas {
                 .argument(.positionLatitude, at: \.latitude)
                 .argument(.positionLongitude, at: \.longitude),
             
-            Field(.fetchWeatherTypes, at: WeatherController.fetchWeatherTypes)
+            Field(.fetchWeatherTypes, at: WeatherController.fetchWeatherTypes),
+            
+            Field(.fetchStationsInfo, at: WeatherController.fetchStationsInfo)
         ]),
         
-        Types(ForecastElement.self, Location.self, WeatherTypeData.self)
+        Types(ForecastElement.self, Location.self, WeatherTypeData.self, StationObservationClass.self, StationObservation.self)
     ])
 }
