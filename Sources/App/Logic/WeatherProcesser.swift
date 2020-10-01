@@ -44,13 +44,13 @@ final class WeatherProcesser {
     }
     
     private func startUpdatingForecastForLocations() {
-        client.get("http://api.ipma.pt/public-data/forecast/locations.json").flatMapThrowing { res in
+        self.client.get("http://api.ipma.pt/public-data/forecast/locations.json").flatMapThrowing { res in
             try res.content.decode([Location].self)
         }.map { json in
             self.locations = json
-        }.whenSuccess { [unowned self] _ in
-            locations.forEach { location in
-                client.get("https://api.ipma.pt/public-data/forecast/aggregate/\(location.globalIDLocal).json").flatMapThrowing { res in
+        }.whenSuccess { _ in
+            self.locations.forEach { location in
+                self.client.get("https://api.ipma.pt/public-data/forecast/aggregate/\(location.globalIDLocal).json").flatMapThrowing { res in
                     try res.content.decode([ForecastElement].self)
                 }.map { elements in
                     self.forecasts[location] = elements
