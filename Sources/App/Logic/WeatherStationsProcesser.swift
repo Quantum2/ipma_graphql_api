@@ -44,31 +44,31 @@ final class WeatherStationsProcesser {
     }
     
     private func startUpdatingStations() {
-        client.get("https://api.ipma.pt/open-data/observation/meteorology/stations/stations.json").flatMapThrowing { res in
+        self.client.get("https://api.ipma.pt/open-data/observation/meteorology/stations/stations.json").flatMapThrowing { res in
             try res.content.decode(Stations.self)
         }.map { json in
             self.stations = json
-        }.whenSuccess { [unowned self] _ in
-            client.get("https://api.ipma.pt/open-data/observation/meteorology/stations/observations.json").flatMapThrowing { res in
+        }.whenSuccess { _ in
+            self.client.get("https://api.ipma.pt/open-data/observation/meteorology/stations/observations.json").flatMapThrowing { res in
                 try res.content.decode(StationObservationResponse.self)
             }.map { json in
                 var internalJson = json
                 
                 while internalJson.keys.count > 0 {
-                    let latestArrayKey = getDateToString(internalJson.keys.map{getDateFromString($0)}.max()!)
+                    let latestArrayKey = self.getDateToString(internalJson.keys.map{self.getDateFromString($0)}.max()!)
                     let values = internalJson[latestArrayKey]!
                     
                     for obs in values {
                         guard obs.value != nil else { continue }
-                        guard !stationsFinal.contains(where: {$0.id == Int(obs.key)!}) else { continue }
+                        guard !self.stationsFinal.contains(where: {$0.id == Int(obs.key)!}) else { continue }
                         
-                        stationsFinal.append(StationObservation(date: latestArrayKey, id: Int(obs.key)!, observation: obs.value!))
+                        self.stationsFinal.append(StationObservation(date: latestArrayKey, id: Int(obs.key)!, observation: obs.value!))
                     }
                     
                     internalJson.removeValue(forKey: latestArrayKey)
                 }
                 
-                logger.info("Stations info updated")
+                self.logger.info("Stations info updated")
             }
         }
     }
