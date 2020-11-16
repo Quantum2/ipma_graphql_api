@@ -8,10 +8,11 @@ let package = Package(
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.27.1"),
         // 🌐 GraphQL
-        .package(name: "GraphQLKit", url: "https://github.com/alexsteinerde/graphql-kit.git", from: "2.0.0-beta.1"),
-        .package(name: "GraphiQLVapor", url: "https://github.com/alexsteinerde/graphiql-vapor.git", .branch("vapor4"))
+        .package(name: "GraphQLKit", url: "https://github.com/HeartedApp/graphql-kit.git", from: "2.0.2"),
+        .package(name: "GraphiQLVapor", url: "https://github.com/alexsteinerde/graphiql-vapor.git", .branch("vapor4")),
+        .package(name: "Graphiti", url: "https://github.com/GraphQLSwift/Graphiti.git", from: "0.22.0")
     ],
     targets: [
         .target(
@@ -19,7 +20,8 @@ let package = Package(
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
                 "GraphQLKit",
-                "GraphiQLVapor"
+                "GraphiQLVapor",
+                "Graphiti"
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of

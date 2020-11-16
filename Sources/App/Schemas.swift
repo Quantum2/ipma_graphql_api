@@ -28,6 +28,7 @@ enum Schemas {
             Field(.iUv, at: \.iUv),
             Field(.intervaloHora, at: \.intervaloHora),
             Field(.globalIDLocal, at : \.globalIDLocal),
+            Field(.idTipoTempo, at : \.idTipoTempo),
             Field(.probabilidadePrecipita, at: \.probabilidadePrecipita),
             Field(.idPeriodo, at: \.idPeriodo),
             Field(.dataPrev, at: \.dataPrev),
