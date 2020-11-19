@@ -38,6 +38,13 @@ final class WeatherController {
         return weatherTypeProcesser.weatherTypes
     }
     
+    func fetchWindTypes(request: Request, _: NoArguments) throws -> [WindTypeData] {
+        return weatherTypeProcesser.windTypes
+    }
+    func fetchRainTypes(request: Request, _: NoArguments) throws -> [RainTypeData] {
+        return weatherTypeProcesser.rainTypes
+    }
+    
     func fetchStationsInfo(request: Request, _: NoArguments) throws -> [StationObservation] {
         return weatherStationsProcesser.stationsObservations
     }

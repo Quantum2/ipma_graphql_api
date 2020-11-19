@@ -52,6 +52,18 @@ enum Schemas {
             Field(.idWeatherType, at: \.idWeatherType)
         ]),
         
+        Type(WindTypeData.self, fields: [
+            Field(.descIDWeatherTypeEN, at: \.descIDWeatherTypeEN),
+            Field(.descIDWeatherTypePT, at: \.descIDWeatherTypePT),
+            Field(.idWeatherType, at: \.classWindSpeed)
+        ]),
+        
+        Type(RainTypeData.self, fields: [
+            Field(.descIDWeatherTypeEN, at: \.descIDWeatherTypeEN),
+            Field(.descIDWeatherTypePT, at: \.descIDWeatherTypePT),
+            Field(.idWeatherType, at: \.classPrecInt)
+        ]),
+        
         Type(StationObservationClass.self, fields: [
             Field(.intensidadeVentoKM, at: \.intensidadeVentoKM),
             Field(.temperatura, at: \.temperatura),
@@ -87,6 +99,6 @@ enum Schemas {
             Field(.fetchStationsInfo, at: WeatherController.fetchStationsInfo)
         ]),
         
-        Types(ForecastElement.self, Location.self, WeatherTypeData.self, StationObservationClass.self, StationObservation.self)
+        Types(ForecastElement.self, Location.self, WeatherTypeData.self, WindTypeData.self, RainTypeData.self, StationObservationClass.self, StationObservation.self)
     ])
 }
