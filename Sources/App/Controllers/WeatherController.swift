@@ -39,7 +39,7 @@ final class WeatherController {
     }
     
     func fetchStationsInfo(request: Request, _: NoArguments) throws -> [StationObservation] {
-        return weatherStationsProcesser.stationsFinal
+        return weatherStationsProcesser.stationsObservations
     }
     
     //MARK: NonResponseMethods

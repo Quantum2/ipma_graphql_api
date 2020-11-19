@@ -14,7 +14,7 @@ final class WeatherStationsProcesser {
     let client: Client
     var timer: DispatchSourceTimer?
     
-    var stationsFinal = [StationObservation]()
+    var stationsObservations = [StationObservation]()
     private var stations = Stations()
     
     init(_ app: Application) {
@@ -60,9 +60,9 @@ final class WeatherStationsProcesser {
                     
                     for obs in values {
                         guard obs.value != nil else { continue }
-                        guard !self.stationsFinal.contains(where: {$0.id == Int(obs.key)!}) else { continue }
+                        guard !self.stationsObservations.contains(where: {$0.id == Int(obs.key)!}) else { continue }
                         
-                        self.stationsFinal.append(StationObservation(date: latestArrayKey, id: Int(obs.key)!, observation: obs.value!))
+                        self.stationsObservations.append(StationObservation(date: latestArrayKey, id: Int(obs.key)!, observation: obs.value!))
                     }
                     
                     internalJson.removeValue(forKey: latestArrayKey)
