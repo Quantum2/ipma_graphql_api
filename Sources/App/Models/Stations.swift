@@ -50,6 +50,8 @@ typealias Stations = [Station]
 struct StationObservation: Codable {
     let date: String
     let id: Int
+    let latitude, longitude: Double
+    let local: String
     let observation: StationObservationClass
 }
 
@@ -59,6 +61,8 @@ extension StationObservation: FieldKeyProvider {
     enum FieldKeys: String {
         case date, id
         case observation
+        case latitude, longitude
+        case local
     }
 }
 

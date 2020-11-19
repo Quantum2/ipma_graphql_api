@@ -66,7 +66,10 @@ enum Schemas {
         Type(StationObservation.self, fields: [
             Field(.date, at: \.date),
             Field(.id, at: \.id),
-            Field(.observation, at: \.observation)
+            Field(.observation, at: \.observation),
+            Field(.latitude, at: \.latitude),
+            Field(.longitude, at: \.longitude),
+            Field(.local, at: \.local)
         ]),
         
         Query([

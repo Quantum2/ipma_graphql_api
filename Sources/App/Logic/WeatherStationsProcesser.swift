@@ -62,7 +62,9 @@ final class WeatherStationsProcesser {
                         guard obs.value != nil else { continue }
                         guard !self.stationsObservations.contains(where: {$0.id == Int(obs.key)!}) else { continue }
                         
-                        self.stationsObservations.append(StationObservation(date: latestArrayKey, id: Int(obs.key)!, observation: obs.value!))
+                        guard let associatedStation = self.stations.first(where: {$0.properties.idEstacao == Int(obs.key)}) else { continue }
+                        
+                        self.stationsObservations.append(StationObservation(date: latestArrayKey, id: Int(obs.key)!, latitude: associatedStation.geometry.coordinates[1], longitude: associatedStation.geometry.coordinates[0], local: associatedStation.properties.localEstacao, observation: obs.value!))
                     }
                     
                     internalJson.removeValue(forKey: latestArrayKey)
