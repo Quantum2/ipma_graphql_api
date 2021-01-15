@@ -9,96 +9,103 @@ import Foundation
 import Vapor
 import GraphQLKit
 
-enum Schemas {
-    static var schema = Schema<WeatherController, Request>([
-        Type(Location.self, fields: [
-            Field(.local, at: \.local),
-            Field(.idRegiao, at: \.idRegiao),
-            Field(.idAreaAviso, at: \.idAreaAviso),
-            Field(.latitude, at: \.latitude),
-            Field(.longitude, at: \.longitude),
-            Field(.globalIDLocal, at: \.globalIDLocal)
-        ]),
+struct Schemas {
+    let controller: WeatherController
+    let schema: Schema<WeatherController, Request>
+    
+    init(controller: WeatherController) throws {
+        self.controller = controller
         
-        Type(ForecastElement.self, fields: [
-            Field(.tMin, at: \.tMin),
-            Field(.idFfxVento, at: \.idFfxVento),
-            Field(.dataUpdate, at: \.dataUpdate),
-            Field(.tMax, at: \.tMax),
-            Field(.iUv, at: \.iUv),
-            Field(.intervaloHora, at: \.intervaloHora),
-            Field(.globalIDLocal, at : \.globalIDLocal),
-            Field(.idTipoTempo, at : \.idTipoTempo),
-            Field(.probabilidadePrecipita, at: \.probabilidadePrecipita),
-            Field(.idPeriodo, at: \.idPeriodo),
-            Field(.dataPrev, at: \.dataPrev),
-            Field(.ddVento, at: \.ddVento),
-            Field(.tMed, at: \.tMed),
-            Field(.hR, at: \.hR),
-            Field(.utci, at: \.utci),
-            Field(.ffVento, at: \.ffVento),
-            Field(.idIntensidadePrecipita, at: \.idIntensidadePrecipita),
-            Field(.tempAguaMar, at: \.tempAguaMar),
-            Field(.periodoPico, at: \.periodoPico),
-            Field(.ondulacao, at: \.ondulacao),
-            Field(.dirOndulacao, at: \.dirOndulacao),
-            Field(.marTotal, at: \.marTotal),
-            Field(.periodOndulacao, at: \.periodOndulacao)
-        ]),
-        
-        Type(WeatherTypeData.self, fields: [
-            Field(.descIDWeatherTypeEN, at: \.descIDWeatherTypeEN),
-            Field(.descIDWeatherTypePT, at: \.descIDWeatherTypePT),
-            Field(.idWeatherType, at: \.idWeatherType)
-        ]),
-        
-        Type(WindTypeData.self, fields: [
-            Field(.descIDWeatherTypeEN, at: \.descIDWeatherTypeEN),
-            Field(.descIDWeatherTypePT, at: \.descIDWeatherTypePT),
-            Field(.idWeatherType, at: \.classWindSpeed)
-        ]),
-        
-        Type(RainTypeData.self, fields: [
-            Field(.descIDWeatherTypeEN, at: \.descIDWeatherTypeEN),
-            Field(.descIDWeatherTypePT, at: \.descIDWeatherTypePT),
-            Field(.idWeatherType, at: \.classPrecInt)
-        ]),
-        
-        Type(StationObservationClass.self, fields: [
-            Field(.intensidadeVentoKM, at: \.intensidadeVentoKM),
-            Field(.temperatura, at: \.temperatura),
-            Field(.radiacao, at: \.radiacao),
-            Field(.idDireccVento, at: \.idDireccVento),
-            Field(.precAcumulada, at: \.precAcumulada),
-            Field(.intensidadeVento, at: \.intensidadeVento),
-            Field(.humidade, at: \.humidade),
-            Field(.pressao, at: \.pressao)
-        ]),
-        
-        Type(StationObservation.self, fields: [
-            Field(.date, at: \.date),
-            Field(.id, at: \.id),
-            Field(.observation, at: \.observation),
-            Field(.latitude, at: \.latitude),
-            Field(.longitude, at: \.longitude),
-            Field(.local, at: \.local)
-        ]),
-        
-        Query([
-            Field(.fetchLocations, at: WeatherController.fetchLocations),
+        self.schema = try Schema<WeatherController, Request> {
+            Type(Location.self) {
+                Field("local", at: \.local)
+                Field("idRegiao", at: \.idRegiao)
+                Field("idAreaAviso", at: \.idAreaAviso)
+                Field("latitude", at: \.latitude)
+                Field("longitude", at: \.longitude)
+                Field("globalIDLocal", at: \.globalIDLocal)
+            }
             
-            Field(.fetchForecast, at: WeatherController.fetchForecast)
-                .argument(.locationID, at: \.globalId),
+            Type(ForecastElement.self) {
+                Field("tMin", at: \.tMin)
+                Field("idFfxVento", at: \.idFfxVento)
+                Field("dataUpdate", at: \.dataUpdate)
+                Field("tMax", at: \.tMax)
+                Field("iUv", at: \.iUv)
+                Field("intervaloHora", at: \.intervaloHora)
+                Field("globalIDLocal", at : \.globalIDLocal)
+                Field("idTipoTempo", at : \.idTipoTempo)
+                Field("probabilidadePrecipita", at: \.probabilidadePrecipita)
+                Field("idPeriodo", at: \.idPeriodo)
+                Field("dataPrev", at: \.dataPrev)
+                Field("ddVento", at: \.ddVento)
+                Field("tMed", at: \.tMed)
+                Field("hR", at: \.hR)
+                Field("utci", at: \.utci)
+                Field("ffVento", at: \.ffVento)
+                Field("idIntensidadePrecipita", at: \.idIntensidadePrecipita)
+                Field("tempAguaMar", at: \.tempAguaMar)
+                Field("periodoPico", at: \.periodoPico)
+                Field("ondulacao", at: \.ondulacao)
+                Field("dirOndulacao", at: \.dirOndulacao)
+                Field("marTotal", at: \.marTotal)
+                Field("periodOndulacao", at: \.periodOndulacao)
+            }
             
-            Field(.fetchClosestLocation, at: WeatherController.fetchClosestLocation)
-                .argument(.positionLatitude, at: \.latitude)
-                .argument(.positionLongitude, at: \.longitude),
+            Type(WeatherTypeData.self) {
+                Field("descIDWeatherTypeEN", at: \.descIDWeatherTypeEN)
+                Field("descIDWeatherTypePT", at: \.descIDWeatherTypePT)
+                Field("idWeatherType", at: \.idWeatherType)
+            }
             
-            Field(.fetchWeatherTypes, at: WeatherController.fetchWeatherTypes),
+            Type(WindTypeData.self) {
+                Field("descClassWindSpeedDailyEN", at: \.descClassWindSpeedDailyEN)
+                Field("descClassWindSpeedDailyPT", at: \.descClassWindSpeedDailyPT)
+                Field("classWindSpeed", at: \.classWindSpeed)
+            }
             
-            Field(.fetchStationsInfo, at: WeatherController.fetchStationsInfo)
-        ]),
-        
-        Types(ForecastElement.self, Location.self, WeatherTypeData.self, WindTypeData.self, RainTypeData.self, StationObservationClass.self, StationObservation.self)
-    ])
+            Type(RainTypeData.self) {
+                Field("descClassPrecIntEN", at: \.descClassPrecIntEN)
+                Field("descClassPrecIntPT", at: \.descClassPrecIntPT)
+                Field("classPrecInt", at: \.classPrecInt)
+            }
+            
+            Type(StationObservationInformation.self) {
+                Field("intensidadeVentoKM", at: \.intensidadeVentoKM)
+                Field("temperatura", at: \.temperatura)
+                Field("radiacao", at: \.radiacao)
+                Field("idDireccVento", at: \.idDireccVento)
+                Field("precAcumulada", at: \.precAcumulada)
+                Field("intensidadeVento", at: \.intensidadeVento)
+                Field("humidade", at: \.humidade)
+                Field("pressao", at: \.pressao)
+            }
+            
+            Type(StationObservation.self) {
+                Field("date", at: \.date)
+                Field("id", at: \.id)
+                Field("observation", at: \.observation)
+                Field("latitude", at: \.latitude)
+                Field("longitude", at: \.longitude)
+                Field("local", at: \.local)
+            }
+            
+            Query {
+                Field("locations", at: WeatherController.fetchLocations)
+                
+                Field("forecast", at: WeatherController.fetchForecast) {
+                    Argument("globalId", at: \.globalId)
+                }
+                
+                Field("closestLocation", at: WeatherController.fetchClosestLocation) {
+                    Argument("latitude", at: \.latitude)
+                    Argument("longitude", at: \.longitude)
+                }
+                
+                Field("weatherTypes", at: WeatherController.fetchWeatherTypes)
+                
+                Field("stationsInfo", at: WeatherController.fetchStationsInfo)
+            }
+        }
+    }
 }

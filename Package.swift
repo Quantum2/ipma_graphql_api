@@ -10,7 +10,7 @@ let package = Package(
         // 💧 A server-side Swift web framework.
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
         // 🌐 GraphQL
-        .package(name: "GraphQLKit", url: "https://github.com/alexsteinerde/graphql-kit.git", from: "2.0.0-beta.1"),
+        .package(name: "GraphQLKit", url: "https://github.com/HeartedApp/graphql-kit.git", from: "2.0.2"),
         .package(name: "GraphiQLVapor", url: "https://github.com/alexsteinerde/graphiql-vapor.git", .branch("vapor4"))
     ],
     targets: [

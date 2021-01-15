@@ -9,7 +9,7 @@ import Foundation
 import GraphQLKit
 
 // MARK: - StationObservationClass
-struct StationObservationClass: Codable {
+struct StationObservationInformation: Codable {
     let intensidadeVentoKM, temperatura, radiacao: Double
     let idDireccVento: Int
     let precAcumulada, intensidadeVento: Double
@@ -44,7 +44,7 @@ enum StationType: String, Codable {
     case feature = "Feature"
 }
 
-typealias StationObservationResponse = [String: [String: StationObservationClass?]]
+typealias StationObservationResponse = [String: [String: StationObservationInformation?]]
 typealias Stations = [Station]
 
 struct StationObservation: Codable {
@@ -52,28 +52,5 @@ struct StationObservation: Codable {
     let id: Int
     let latitude, longitude: Double
     let local: String
-    let observation: StationObservationClass
-}
-
-extension StationObservation: FieldKeyProvider {
-    typealias FieldKey = FieldKeys
-
-    enum FieldKeys: String {
-        case date, id
-        case observation
-        case latitude, longitude
-        case local
-    }
-}
-
-extension StationObservationClass: FieldKeyProvider {
-    typealias FieldKey = FieldKeys
-
-    enum FieldKeys: String {
-        case intensidadeVentoKM, temperatura, radiacao
-        case idDireccVento
-        case precAcumulada, intensidadeVento
-        case humidade
-        case pressao
-    }
+    let observation: StationObservationInformation
 }

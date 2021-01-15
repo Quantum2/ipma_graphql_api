@@ -26,7 +26,7 @@ final class WeatherTypesProcesser {
             try res.content.decode(WeatherType.self)
         }.map { json in
             self.weatherTypes = json.data
-            logger.info("Updated Weather Types")
+            self.logger.info("Updated Weather Types")
         }
     }
     
@@ -35,7 +35,7 @@ final class WeatherTypesProcesser {
             try res.content.decode(RainType.self)
         }.map { json in
             self.rainTypes = json.data
-            logger.info("Updated Rain Types")
+            self.logger.info("Updated Rain Types")
         }
     }
     
@@ -44,7 +44,7 @@ final class WeatherTypesProcesser {
             try res.content.decode(WindType.self)
         }.map { json in
             self.windTypes = json.data
-            logger.info("Updated Wind Types")
+            self.logger.info("Updated Wind Types")
         }
     }
 }

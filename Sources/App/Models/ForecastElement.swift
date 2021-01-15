@@ -30,13 +30,3 @@ struct ForecastElement: Codable {
         case probabilidadePrecipita, idPeriodo, dataPrev, ddVento, tMed, hR, utci, ffVento, idIntensidadePrecipita, tempAguaMar, periodoPico, ondulacao, dirOndulacao, marTotal, periodOndulacao
     }
 }
-
-extension ForecastElement: FieldKeyProvider {
-    typealias FieldKey = FieldKeys
-
-    enum FieldKeys: String {
-        case tMin, idFfxVento, dataUpdate, tMax, iUv, intervaloHora, idTipoTempo
-        case globalIDLocal = "globalIdLocal"
-        case probabilidadePrecipita, idPeriodo, dataPrev, ddVento, tMed, hR, utci, ffVento, idIntensidadePrecipita, tempAguaMar, periodoPico, ondulacao, dirOndulacao, marTotal, periodOndulacao
-    }
-}

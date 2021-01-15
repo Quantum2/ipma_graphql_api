@@ -80,18 +80,3 @@ final class WeatherController {
         return minLocation!
     }
 }
-
-extension WeatherController: FieldKeyProvider {
-    typealias FieldKey = FieldKeys
-
-    enum FieldKeys: String {
-        case fetchLocations
-        case fetchForecast
-        case fetchClosestLocation
-        case locationID
-        case positionLatitude
-        case positionLongitude
-        case fetchWeatherTypes
-        case fetchStationsInfo
-    }
-}
