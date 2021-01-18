@@ -14,3 +14,7 @@ struct ForecastArguments: Codable {
 struct PositionArguments: Codable {
     let latitude, longitude: Double
 }
+
+struct WeatherTypeArguments: Codable {
+    let weatherId: Int
+}

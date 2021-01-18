@@ -10,7 +10,7 @@ import Vapor
 import GraphQLKit
 
 final class WeatherController {
-    let logger = Logger(label: "com.ipma_api.GraphQLController")
+    let logger = Logger(label: "com.ipma_api.WeatherController")
     
     let weatherProcesser: WeatherProcesser
     let weatherTypeProcesser: WeatherTypesProcesser
@@ -64,6 +64,14 @@ final class WeatherController {
     
     func fetchStationsInfo(request: Request, _: NoArguments) throws -> [StationObservation] {
         return weatherStationsProcesser.stationsObservations
+    }
+    
+    func fetchImageForWeatherType(request: Request, arguments: WeatherTypeArguments) throws -> WeatherImage? {
+        let staticUrl = "https://www.ipma.pt/bin/icons/svg/weather/w_ic_d_\(String(format: "%02d", arguments.weatherId)).svg"
+        let animatedUrl = "https://www.ipma.pt/bin/icons/svg/weather/w_ic_d_\(String(format: "%02d", arguments.weatherId))anim.svg"
+        let nightUrl = "https://www.ipma.pt/bin/icons/svg/weather/w_ic_n_\(String(format: "%02d", arguments.weatherId)).svg"
+        
+        return WeatherImage(staticUrl: staticUrl, animatedUrl: animatedUrl, nightUrl: nightUrl)
     }
     
     //MARK: NonResponseMethods

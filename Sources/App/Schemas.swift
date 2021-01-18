@@ -90,6 +90,12 @@ struct Schemas {
                 Field("local", at: \.local)
             }
             
+            Type(WeatherImage.self) {
+                Field("staticUrl", at: \.staticUrl)
+                Field("animatedUrl", at: \.animatedUrl)
+                Field("nightUrl", at: \.nightUrl)
+            }
+            
             Query {
                 Field("locations", at: WeatherController.fetchLocations)
                 
@@ -112,6 +118,10 @@ struct Schemas {
                 Field("closestLocation", at: WeatherController.fetchClosestLocation) {
                     Argument("latitude", at: \.latitude)
                     Argument("longitude", at: \.longitude)
+                }
+                
+                Field("weatherImage", at: WeatherController.fetchImageForWeatherType) {
+                    Argument("weatherId", at: \.weatherId)
                 }
                 
                 Field("weatherTypes", at: WeatherController.fetchWeatherTypes)
