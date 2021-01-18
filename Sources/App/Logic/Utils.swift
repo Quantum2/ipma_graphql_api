@@ -12,3 +12,9 @@ func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
     let yDist = a.y - b.y
     return CGFloat(sqrt(xDist * xDist + yDist * yDist))
 }
+
+extension Date {
+    static func - (lhs: Date, rhs: Date) -> TimeInterval {
+        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+    }
+}

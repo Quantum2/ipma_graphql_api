@@ -93,7 +93,15 @@ struct Schemas {
             Query {
                 Field("locations", at: WeatherController.fetchLocations)
                 
-                Field("forecast", at: WeatherController.fetchForecast) {
+                Field("forecastDay", at: WeatherController.fetchDayForecast) {
+                    Argument("globalId", at: \.globalId)
+                }
+                
+                Field("forecastCurrent", at: WeatherController.fetchCurrentForecast) {
+                    Argument("globalId", at: \.globalId)
+                }
+                
+                Field("forecastTenDays", at: WeatherController.fetchTenDaysForecast) {
                     Argument("globalId", at: \.globalId)
                 }
                 

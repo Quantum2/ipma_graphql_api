@@ -16,18 +16,31 @@ final class WeatherController {
     let weatherTypeProcesser: WeatherTypesProcesser
     let weatherStationsProcesser: WeatherStationsProcesser
     
+    let dateFormatter = DateFormatter()
+    
     init(_ weatherProcesser: WeatherProcesser, _ typesProcesser: WeatherTypesProcesser, _ stationsProcesser: WeatherStationsProcesser) {
         self.weatherProcesser = weatherProcesser
         self.weatherTypeProcesser = typesProcesser
         self.weatherStationsProcesser = stationsProcesser
+        
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
     }
     
     func fetchLocations(request: Request, _: NoArguments) throws -> [Location] {
         return weatherProcesser.locations
     }
     
-    func fetchForecast(request: Request, arguments: ForecastArguments) throws -> [ForecastElement]? {
-        return weatherProcesser.forecasts[weatherProcesser.locations.filter{ $0.globalIDLocal == arguments.globalId }[0]]
+    func fetchDayForecast(request: Request, arguments: ForecastArguments) throws -> ForecastElement {
+        return self.getDayForecast(arguments)
+    }
+    
+    func fetchCurrentForecast(request: Request, arguments: ForecastArguments) throws -> ForecastElement {
+        return self.getCurrentForecast(arguments)
+    }
+    
+    func fetchTenDaysForecast(request: Request, arguments: ForecastArguments) throws -> [ForecastElement] {
+        return self.getTenDaysForecast(arguments)
     }
     
     func fetchClosestLocation(request: Request, arguments: PositionArguments) throws -> Location {
@@ -78,5 +91,24 @@ final class WeatherController {
         }
         
         return minLocation!
+    }
+    
+    private func getDayForecast(_ args: ForecastArguments) -> ForecastElement {
+        let placeForecasts = weatherProcesser.forecasts[weatherProcesser.locations.filter{ $0.globalIDLocal == args.globalId }[0]]!
+        
+        return placeForecasts.first(where: { $0.idPeriodo == 24 })!
+    }
+    
+    private func getCurrentForecast(_ args: ForecastArguments) -> ForecastElement {
+        let placeForecasts = weatherProcesser.forecasts[weatherProcesser.locations.filter{ $0.globalIDLocal == args.globalId }[0]]!
+        let date = Date()
+        
+        return placeForecasts.filter{ $0.idPeriodo == 1 }.enumerated().min(by: { abs(date-self.dateFormatter.date(from: $0.1.dataPrev)!) < abs(date-self.dateFormatter.date(from: $1.1.dataPrev)!) })!.element
+    }
+    
+    private func getTenDaysForecast(_ args: ForecastArguments) -> [ForecastElement] {
+        let placeForecasts = weatherProcesser.forecasts[weatherProcesser.locations.filter{ $0.globalIDLocal == args.globalId }[0]]!
+        
+        return placeForecasts.filter{ $0.idPeriodo == 24 }
     }
 }
