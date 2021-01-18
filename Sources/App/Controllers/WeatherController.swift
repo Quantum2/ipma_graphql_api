@@ -39,6 +39,10 @@ final class WeatherController {
         return self.getCurrentForecast(arguments)
     }
     
+    func fetchNext24HoursForecast(request: Request, arguments: ForecastArguments) throws -> [ForecastElement] {
+        return self.getNext24HoursForecast(arguments)
+    }
+    
     func fetchTenDaysForecast(request: Request, arguments: ForecastArguments) throws -> [ForecastElement] {
         return self.getTenDaysForecast(arguments)
     }
@@ -104,6 +108,13 @@ final class WeatherController {
         let date = Date()
         
         return placeForecasts.filter{ $0.idPeriodo == 1 }.enumerated().min(by: { abs(date-self.dateFormatter.date(from: $0.1.dataPrev)!) < abs(date-self.dateFormatter.date(from: $1.1.dataPrev)!) })!.element
+    }
+    
+    private func getNext24HoursForecast(_ args: ForecastArguments) -> [ForecastElement] {
+        let placeForecasts = weatherProcesser.forecasts[weatherProcesser.locations.filter{ $0.globalIDLocal == args.globalId }[0]]!
+        let date = Date()
+        
+        return Array(placeForecasts.filter{ $0.idPeriodo == 1 && self.dateFormatter.date(from: $0.dataPrev)! - date > 0 }[0 ... 24])
     }
     
     private func getTenDaysForecast(_ args: ForecastArguments) -> [ForecastElement] {

@@ -101,6 +101,10 @@ struct Schemas {
                     Argument("globalId", at: \.globalId)
                 }
                 
+                Field("forecast24Hours", at: WeatherController.fetchNext24HoursForecast) {
+                    Argument("globalId", at: \.globalId)
+                }
+                
                 Field("forecastTenDays", at: WeatherController.fetchTenDaysForecast) {
                     Argument("globalId", at: \.globalId)
                 }
