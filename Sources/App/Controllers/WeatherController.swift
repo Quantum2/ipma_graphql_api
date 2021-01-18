@@ -31,19 +31,19 @@ final class WeatherController {
         return weatherProcesser.locations
     }
     
-    func fetchDayForecast(request: Request, arguments: ForecastArguments) throws -> ForecastElement {
+    func fetchDayForecast(request: Request, arguments: ForecastArguments) throws -> ForecastElement? {
         return self.getDayForecast(arguments)
     }
     
-    func fetchCurrentForecast(request: Request, arguments: ForecastArguments) throws -> ForecastElement {
+    func fetchCurrentForecast(request: Request, arguments: ForecastArguments) throws -> ForecastElement? {
         return self.getCurrentForecast(arguments)
     }
     
-    func fetchNext24HoursForecast(request: Request, arguments: ForecastArguments) throws -> [ForecastElement] {
+    func fetchNext24HoursForecast(request: Request, arguments: ForecastArguments) throws -> [ForecastElement]? {
         return self.getNext24HoursForecast(arguments)
     }
     
-    func fetchTenDaysForecast(request: Request, arguments: ForecastArguments) throws -> [ForecastElement] {
+    func fetchTenDaysForecast(request: Request, arguments: ForecastArguments) throws -> [ForecastElement]? {
         return self.getTenDaysForecast(arguments)
     }
     
@@ -97,28 +97,39 @@ final class WeatherController {
         return minLocation!
     }
     
-    private func getDayForecast(_ args: ForecastArguments) -> ForecastElement {
-        let placeForecasts = weatherProcesser.forecasts[weatherProcesser.locations.filter{ $0.globalIDLocal == args.globalId }[0]]!
+    private func getDayForecast(_ args: ForecastArguments) -> ForecastElement? {
+        guard let placeArray = weatherProcesser.locations.filter({ $0.globalIDLocal == args.globalId }).first else { return nil }
+        guard let placeForecasts = weatherProcesser.forecasts[placeArray] else { return nil }
         
-        return placeForecasts.first(where: { $0.idPeriodo == 24 })!
+        return placeForecasts.first(where: { $0.idPeriodo == 24 })
     }
     
-    private func getCurrentForecast(_ args: ForecastArguments) -> ForecastElement {
-        let placeForecasts = weatherProcesser.forecasts[weatherProcesser.locations.filter{ $0.globalIDLocal == args.globalId }[0]]!
+    private func getCurrentForecast(_ args: ForecastArguments) -> ForecastElement? {
+        guard let placeArray = weatherProcesser.locations.filter({ $0.globalIDLocal == args.globalId }).first else { return nil }
+        guard let placeForecasts = weatherProcesser.forecasts[placeArray] else { return nil }
+        
         let date = Date()
         
         return placeForecasts.filter{ $0.idPeriodo == 1 }.enumerated().min(by: { abs(date-self.dateFormatter.date(from: $0.1.dataPrev)!) < abs(date-self.dateFormatter.date(from: $1.1.dataPrev)!) })!.element
     }
     
-    private func getNext24HoursForecast(_ args: ForecastArguments) -> [ForecastElement] {
-        let placeForecasts = weatherProcesser.forecasts[weatherProcesser.locations.filter{ $0.globalIDLocal == args.globalId }[0]]!
-        let date = Date()
+    private func getNext24HoursForecast(_ args: ForecastArguments) -> [ForecastElement]? {
+        guard let placeArray = weatherProcesser.locations.filter({ $0.globalIDLocal == args.globalId }).first else { return nil }
+        guard let placeForecasts = weatherProcesser.forecasts[placeArray] else { return nil }
         
-        return Array(placeForecasts.filter{ $0.idPeriodo == 1 && self.dateFormatter.date(from: $0.dataPrev)! - date > 0 }[0 ... 24])
+        let date = Date()
+        let finalArray = placeForecasts.filter{ $0.idPeriodo == 1 && self.dateFormatter.date(from: $0.dataPrev)! - date > 0 }
+        
+        if finalArray.count >= 24 {
+            return Array(finalArray[0 ... 24])
+        } else {
+            return nil
+        }
     }
     
-    private func getTenDaysForecast(_ args: ForecastArguments) -> [ForecastElement] {
-        let placeForecasts = weatherProcesser.forecasts[weatherProcesser.locations.filter{ $0.globalIDLocal == args.globalId }[0]]!
+    private func getTenDaysForecast(_ args: ForecastArguments) -> [ForecastElement]? {
+        guard let placeArray = weatherProcesser.locations.filter({ $0.globalIDLocal == args.globalId }).first else { return nil }
+        guard let placeForecasts = weatherProcesser.forecasts[placeArray] else { return nil }
         
         return placeForecasts.filter{ $0.idPeriodo == 24 }
     }
