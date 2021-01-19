@@ -51,6 +51,10 @@ final class WeatherController {
         return self.getClosestLocation(arguments)
     }
     
+    func fetchWeatherTypeForId(request: Request, arguments: WeatherTypeArguments) throws -> WeatherTypeData? {
+        return weatherTypeProcesser.weatherTypes.first(where: { $0.idWeatherType == arguments.weatherId })
+    }
+    
     func fetchWeatherTypes(request: Request, _: NoArguments) throws -> [WeatherTypeData] {
         return weatherTypeProcesser.weatherTypes
     }

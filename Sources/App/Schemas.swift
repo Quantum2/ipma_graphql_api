@@ -124,6 +124,10 @@ struct Schemas {
                     Argument("weatherId", at: \.weatherId)
                 }
                 
+                Field("weatherType", at: WeatherController.fetchWeatherTypeForId) {
+                    Argument("weatherId", at: \.weatherId)
+                }
+                
                 Field("weatherTypes", at: WeatherController.fetchWeatherTypes)
                 
                 Field("stationsInfo", at: WeatherController.fetchStationsInfo)
